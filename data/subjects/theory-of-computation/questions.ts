@@ -791,6 +791,7 @@ export const questions: QuizQuestion[] = [
   {
     id: "toc-u1-q10",
     text: "The given DFA accepts the set of all strings over {0, 1} that",
+    diagramUrl: "/diagrams/toc_u1/toc_q10_0.png",
     topic: "Finite Automata",
     options: [
       { id: "a", text: "begin either with 0 or 1" },
@@ -869,6 +870,7 @@ export const questions: QuizQuestion[] = [
   {
     id: "toc-u1-q17",
     text: "Which regular expression best describes the language accepted by the following non- deterministic automation?",
+    diagramUrl: "/diagrams/toc_u1/toc_q17_1.png",
     topic: "Finite Automata",
     options: [
       { id: "a", text: "(q, a)abb)*" },
@@ -986,6 +988,7 @@ export const questions: QuizQuestion[] = [
   {
     id: "toc-u1-q26",
     text: "The language accepted by the given FA is",
+    diagramUrl: "/diagrams/toc_u1/toc_q26_3.jpeg",
     topic: "Finite Automata",
     options: [
       { id: "a", text: "(q, a)ab)*" },
@@ -1051,6 +1054,7 @@ export const questions: QuizQuestion[] = [
   {
     id: "toc-u1-q31",
     text: "Which of the languages is accepted by the following FA?",
+    diagramUrl: "/diagrams/toc_u1/toc_q31_4.png",
     topic: "Finite Automata",
     options: [
       { id: "a", text: "b(q, a)a + bba*)*a* b" },
@@ -1090,6 +1094,7 @@ export const questions: QuizQuestion[] = [
   {
     id: "toc-u1-q34",
     text: "Consider the strings u = abbaba, v = bab, and w = aabb. Which of the following statement is true for the given transitional system?",
+    diagramUrl: "/diagrams/toc_u1/toc_q34_5.png",
     topic: "Finite Automata",
     options: [
       { id: "a", text: "The automaton accepts u and v but not w." },
@@ -1129,6 +1134,7 @@ export const questions: QuizQuestion[] = [
   {
     id: "toc-u1-q38",
     text: "Consider the transitional system  Which of the states are to be marked as starting state and final state, respectively, so as to turn the above system into a DFA that accepts all strings having odd number of zeros and even number of 1\u2019s?",
+    diagramUrl: "/diagrams/toc_u1/toc_q38_6.png",
     topic: "Finite Automata",
     options: [
       { id: "a", text: "q0, q2" },
@@ -1142,6 +1148,7 @@ export const questions: QuizQuestion[] = [
   {
     id: "toc-u1-q39",
     text: "Consider the following DFA in which S0 is the start state and S1 and S4 are the final states.  Which one is true?",
+    diagramUrl: "/diagrams/toc_u1/toc_q39_7.png",
     topic: "Finite Automata",
     options: [
       { id: "a", text: "All strings of x and y." },
@@ -1233,6 +1240,7 @@ export const questions: QuizQuestion[] = [
   {
     id: "toc-u1-q46",
     text: "The following finite state machine accepts all those binary strings in which the number of  1\u2019s and 0\u2019s are, respectively,",
+    diagramUrl: "/diagrams/toc_u1/toc_q46_8.png",
     topic: "Finite Automata",
     options: [
       { id: "a", text: "divisible by 3 and 2" },
@@ -1441,6 +1449,7 @@ export const questions: QuizQuestion[] = [
   {
     id: "toc-u1-q63",
     text: "An NFA\u2019s transition function returns",
+    diagramUrl: "/diagrams/toc_u1/toc_q63_13.jpeg",
     topic: "Finite Automata",
     options: [
       { id: "a", text: "A state" },
