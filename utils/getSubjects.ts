@@ -39,6 +39,11 @@ const SUBJECT_MAP: Record<string, Omit<SubjectMeta, "id">> = {
       "Security foundations, classical ciphers (Caesar, Playfair, Hill, Vigenere), and public-key cryptography with RSA.",
     icon: "Lock",
   },
+  "sociology": {
+    title: "Sociology & Rural Development",
+    description: "Questions on village structure, diversity, kinship, social issues, and rural livelihood programs.",
+    icon: "Users",
+  },
 };
 
 /**
