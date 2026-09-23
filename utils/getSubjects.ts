@@ -27,6 +27,12 @@ const SUBJECT_MAP: Record<string, Omit<SubjectMeta, "id">> = {
       "Finite automata, regular languages, grammars, pushdown automata, Turing machines, and decidability.",
     icon: "Binary",
   },
+  "theory-of-computation-2": {
+    title: "Theory of Computation 2",
+    description:
+      "Units 1-3: Fundamentals of Automata, CFG & CFL, Pushdown Automata, Turing Machines, and GATE exam questions.",
+    icon: "Binary",
+  },
   "computer-networks": {
     title: "Computer Networks & Communication",
     description:
