@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -34,12 +34,6 @@ interface QuizClientProps {
 /** questionIndex -> selected optionId. Only ever populated in quiz mode. */
 type AnswerMap = Record<number, string>;
 
-const slideVariants = {
-  enter: (direction: number) => ({ x: direction > 0 ? 48 : -48, opacity: 0 }),
-  center: { x: 0, opacity: 1 },
-  exit: (direction: number) => ({ x: direction > 0 ? -48 : 48, opacity: 0 }),
-};
-
 export default function QuizClient({ subjectId, subjectTitle, mode, questions }: QuizClientProps) {
   const isPractice = mode === "practice";
   const total = questions.length;
@@ -63,12 +57,14 @@ export default function QuizClient({ subjectId, subjectTitle, mode, questions }:
   );
 
   useEffect(() => {
-    dotRefs.current[currentIndex]?.scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest",
-    });
-  }, [currentIndex]);
+    if (typeof window !== "undefined" && window.innerWidth < 640 && total <= 50) {
+      dotRefs.current[currentIndex]?.scrollIntoView({
+        behavior: "auto",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, [currentIndex, total]);
 
   const handleSelect = useCallback(
     (optionId: string) => {
@@ -142,46 +138,49 @@ export default function QuizClient({ subjectId, subjectTitle, mode, questions }:
         answeredCount={answeredCount}
       />
 
-      {/* Dot pagination: mobile only, horizontally scrollable for large banks */}
-      <div className="no-scrollbar mb-4 flex gap-1.5 overflow-x-auto scroll-smooth py-1 sm:hidden">
-        {questions.map((q, i) => {
-          const answered = answers[i] !== undefined;
-          const isCurrent = i === currentIndex;
-          const jumpable = isPractice || answered || i === answeredCount;
-          return (
-            <button
-              key={q.id}
-              ref={(el) => {
-                dotRefs.current[i] = el;
-              }}
-              type="button"
-              onClick={() => goTo(i)}
-              disabled={!jumpable}
-              aria-label={`Go to question ${i + 1}${answered ? ", answered" : ""}`}
-              aria-current={isCurrent ? "step" : undefined}
-              className={cn(
-                "h-2.5 w-2.5 shrink-0 rounded-full transition-all",
-                isCurrent && "w-6 bg-primary",
-                !isCurrent && mode === "quiz" && answered && "bg-emerald-500/70",
-                !isCurrent && mode === "quiz" && !answered && jumpable && "bg-muted-foreground/30",
-                !isCurrent && mode === "quiz" && !answered && !jumpable && "bg-muted-foreground/10",
-                !isCurrent && mode === "practice" && "bg-muted-foreground/30"
-              )}
-            />
-          );
-        })}
-      </div>
+      {/* Question progress / dots: fast & responsive on both small and large banks */}
+      {total <= 50 ? (
+        <div className="no-scrollbar mb-4 flex gap-1.5 overflow-x-auto py-1 sm:hidden">
+          {questions.map((q, i) => {
+            const answered = answers[i] !== undefined;
+            const isCurrent = i === currentIndex;
+            const jumpable = isPractice || answered || i === answeredCount;
+            return (
+              <button
+                key={q.id}
+                ref={(el) => {
+                  dotRefs.current[i] = el;
+                }}
+                type="button"
+                onClick={() => goTo(i)}
+                disabled={!jumpable}
+                aria-label={`Go to question ${i + 1}${answered ? ", answered" : ""}`}
+                aria-current={isCurrent ? "step" : undefined}
+                className={cn(
+                  "h-2.5 w-2.5 shrink-0 rounded-full transition-all",
+                  isCurrent && "w-6 bg-primary",
+                  !isCurrent && mode === "quiz" && answered && "bg-emerald-500/70",
+                  !isCurrent && mode === "quiz" && !answered && jumpable && "bg-muted-foreground/30",
+                  !isCurrent && mode === "quiz" && !answered && !jumpable && "bg-muted-foreground/10",
+                  !isCurrent && mode === "practice" && "bg-muted-foreground/30"
+                )}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="mb-4 flex items-center justify-between rounded-lg border border-border/60 bg-secondary/30 px-3 py-2 text-xs font-medium text-muted-foreground sm:hidden">
+          <span>Question {currentIndex + 1} of {total}</span>
+          <span>{Math.round(((currentIndex + 1) / total) * 100)}%</span>
+        </div>
+      )}
 
-      <AnimatePresence mode="wait" custom={direction} initial={false}>
-        <motion.div
-          key={currentIndex}
-          custom={direction}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.22, ease: "easeOut" }}
-        >
+      <motion.div
+        key={currentIndex}
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
+      >
           <Card>
             <CardHeader className="pb-3 sm:pb-4">
               <p className="text-xs font-medium text-muted-foreground sm:text-sm">
@@ -263,7 +262,6 @@ export default function QuizClient({ subjectId, subjectTitle, mode, questions }:
             </CardContent>
           </Card>
         </motion.div>
-      </AnimatePresence>
 
       <div className="mt-4 flex items-center justify-between gap-3 sm:mt-6">
         <Button
@@ -276,6 +274,20 @@ export default function QuizClient({ subjectId, subjectTitle, mode, questions }:
           <ArrowLeft className="h-4 w-4" />
           <span className="hidden sm:inline">Previous</span>
         </Button>
+
+        {mode === "quiz" && !hasAnswered && !isLast && (
+          <Button
+            variant="ghost"
+            size="touch"
+            onClick={() => {
+              setDirection(1);
+              setCurrentIndex((i) => i + 1);
+            }}
+            className="w-auto text-muted-foreground hover:text-foreground"
+          >
+            Skip
+          </Button>
+        )}
 
         <Button
           variant={isLast ? "emerald" : "default"}
@@ -291,7 +303,7 @@ export default function QuizClient({ subjectId, subjectTitle, mode, questions }:
       </div>
 
       {nextDisabled && (
-        <p className="mt-2 text-center text-xs text-muted-foreground">Select an answer to continue.</p>
+        <p className="mt-2 text-center text-xs text-muted-foreground">Select an answer or click Skip to continue.</p>
       )}
     </div>
   );

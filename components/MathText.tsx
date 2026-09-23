@@ -23,6 +23,7 @@ function stripParens(token: string): string {
 }
 
 export function MathText({ text }: { text: string }) {
+  if (!text || typeof text !== "string") return null;
   const nodes: ReactNode[] = [];
   let lastIndex = 0;
   let key = 0;
