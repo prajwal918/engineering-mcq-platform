@@ -44,6 +44,18 @@ const SUBJECT_MAP: Record<string, Omit<SubjectMeta, "id">> = {
     description: "Questions on village structure, diversity, kinship, social issues, and rural livelihood programs.",
     icon: "Users",
   },
+  "ipr": {
+    title: "Intellectual Property Rights",
+    description:
+      "Units 1-2: IPR fundamentals, Indian IP statutes and international treaties, patents, industrial designs, copyright, and trademarks.",
+    icon: "Scale",
+  },
+  "quantitative-aptitude": {
+    title: "Quantitative Aptitude",
+    description:
+      "Placement-prep problem sets: time & work, time/speed/distance, trains, boats & streams, pipes & cisterns, and mixtures & alligations.",
+    icon: "Calculator",
+  },
 };
 
 /**

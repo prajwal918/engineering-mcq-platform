@@ -15,6 +15,9 @@ side by side with their own Practice/Quiz buttons.
 | Theory of Computation | `theory-of-computation` | 45 |
 | Computer Networks & Communication | `computer-networks` | 43 |
 | Cryptography & Network Security | `cryptography-network-security` | 50 |
+| Sociology & Rural Development | `sociology` | 114 |
+| Intellectual Property Rights | `ipr` | 230 |
+| Quantitative Aptitude | `quantitative-aptitude` | 69 |
 
 ## Setup
 
@@ -138,14 +141,50 @@ If a question has neither, nothing renders in that slot.
   No inline diagrams; two genuinely useful figures in the source (the
   network-security model, and the attack-taxonomy tree) are covered through
   their own dedicated conceptual questions instead.
+- **Intellectual Property Rights** (230 questions, Units 1-2) -- transcribed
+  from a 230-question MCQ-with-solutions bank (100 for Unit 1: IPR
+  fundamentals, Indian statutes, and international treaties; 130 for Unit 2:
+  patents, industrial designs, copyright basics, and trademarks). One real
+  defect in the source: every single question had its correct answer keyed
+  to option A, which would make Quiz Mode trivial to game -- so all options
+  were reshuffled per-question (seeded, not hand-picked) on import. About
+  195 of the 230 source explanations were just "The correct answer is X"
+  restated; those were replaced with real one-to-two-sentence explanations
+  of the underlying concept, and one option typo ("Inventin" ->
+  "Invention") was corrected. No question in this set describes a figure.
+- **Quantitative Aptitude** (69 questions across 6 topics: Time & Work,
+  Time/Speed/Distance, Trains, Boats & Streams, Pipes & Cisterns, and
+  Mixtures & Alligations) -- from four placement-prep slide decks. Two
+  (Time & Work/TSD, Pipes & Cisterns) were already MCQ-formatted; two
+  (Trains, Boats & Streams) gave a precise worked answer per problem with
+  no options, so three plausible wrong options were composed for each of
+  those 20 to fit the schema -- the correct answer and explanation stay the
+  source's own throughout. Every one of the 69 source answers was
+  independently re-derived (exact-fraction/symbolic arithmetic) before
+  import, which surfaced two real problems in the Mixtures deck that the
+  source itself had flagged as unresolved: one question's "official"
+  answer key turned out to be a common formula-misapplication error (12.5 L
+  is correct, not the keyed 10 L -- fixed here), and one question is
+  mathematically impossible (it asks for two solutions that are both over
+  60% alcohol to be combined into a ~57% result) and was dropped rather
+  than given a fabricated correct answer, leaving 14 of the source's 15
+  Mixtures questions. Like IPR, every source answer key here placed the
+  correct option in a skewed, guessable position (as high as 53% for a
+  single letter in one deck), so options were reshuffled per-question on
+  import here too.
 
-Across all four, question/option **text for the first three subjects is
+Across all six, question/option **text for Operating Systems, Theory of
+Computation, Computer Networks, and Intellectual Property Rights is
 verbatim** from their source material aside from purely cosmetic
 normalization (stripping redundant "a)"/"1)" labels, collapsing inconsistent
 blank-line runs to `_____`). Cryptography & Network Security is composed
 text throughout, as noted above. Explanations for every subject were written
 to support Practice Mode and are not part of the
-original source text.
+original source text -- except where a subject's own source already
+included real explanations (roughly a third of IPR's, kept as-is rather
+than rewritten). Quantitative Aptitude is verbatim throughout for question
+text, correct answers, and explanations; only the three wrong options per
+question in Trains and Boats & Streams are composed, as noted above.
 
 ## Design choices worth knowing about
 
@@ -222,3 +261,21 @@ RSA and modular-arithmetic questions) renders as real `<sup>` HTML through
 the same `MathText` component Theory of Computation uses. If you hit
 anything different locally, it's most likely a Node version mismatch (use
 Node 20.9+).
+
+Intellectual Property Rights & Quantitative Aptitude addition: every one of
+the 299 new answers (all 230 IPR questions, all 69 Quantitative Aptitude
+questions) was checked before import, not just after -- IPR's answer key
+against its own stated options, and every Quantitative Aptitude numeric
+result independently against exact-fraction (and, for two alligation
+problems, symbolic) arithmetic, as detailed in the notes above. `npm
+install` (to populate `node_modules`, not present in this delivery), `npm
+run typecheck`, `npm run lint`, and `npm run build` all passed clean with
+both new subjects in place. The production server was then smoke-tested:
+the dashboard renders all seven subject cards with the correct
+44/45/43/50/114/230/69 counts, `/quiz/ipr?mode=practice` renders real
+question text from both Unit 1 ("Which of the following can be considered
+a trade secret?") and Unit 2 ("What is the origin of the word
+\"Patent\"?"), and `/quiz/quantitative-aptitude?mode=practice` renders real
+question text from both the Time & Work topic ("A can complete a project
+in 10 days...") and the Trains topic ("A train 180 m long is running at 54
+km/h...").
