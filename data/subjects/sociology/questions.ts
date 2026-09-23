@@ -254,9 +254,9 @@ export const questions: QuizQuestion[] = [
     topic: "Sociology",
     options: [
       { id: "a", text: "Vallabh Bhai Patel" },
-      { id: "b", text: "" },
+      { id: "b", text: "Deen Dayal Upadhyay" },
       { id: "c", text: "Mahatma Gandhi" },
-      { id: "d", text: "een Dayal Upadhyay Jai Prakash Narayan" }
+      { id: "d", text: "Jai Prakash Narayan" }
     ],
     correctOptionId: "d",
     explanation: "Answer provided by question bank."
@@ -281,8 +281,8 @@ export const questions: QuizQuestion[] = [
     options: [
       { id: "a", text: "Employment to Rural youths" },
       { id: "b", text: "Employment to Urban youths" },
-      { id: "c", text: "" },
-      { id: "d", text: "evelopment of nutrition intake in the food of poor of the country. Providing road connectivity to the villages" }
+      { id: "c", text: "Development of nutrition intake in the food of poor of the country." },
+      { id: "d", text: "Providing road connectivity to the villages" }
     ],
     correctOptionId: "a",
     explanation: "Answer provided by question bank."
